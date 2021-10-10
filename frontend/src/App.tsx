@@ -10,6 +10,7 @@ import { boujeeTheme } from "./common/theme";
 import AppBar from "@mui/material/AppBar";
 import Paper from "@mui/material/Paper";
 import { SnackbarProvider } from "notistack";
+import Footer from "./common/Footer";
 
 const App = (props: any) => {
   const [userData, setUserData] = useState({
@@ -89,6 +90,20 @@ const App = (props: any) => {
               <Route path="/login" exact component={Login} />
               <Route path="/dashboard" exact component={Dashboard} />
             </UserContext.Provider>
+          </Paper>
+          <Paper
+            elevation={0}
+            sx={{
+              height: "250px",
+              marginBottom: "20px",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "flex-end",
+            }}
+          >
+            <Footer />
           </Paper>
         </ThemeProvider>
       </BrowserRouter>
