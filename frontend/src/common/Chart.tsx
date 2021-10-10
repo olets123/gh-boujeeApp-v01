@@ -68,24 +68,13 @@ export const BoujeeChart: React.FC<{}> = (props) => {
   ];
   return isLoading ? (
     <Box display="flex" justifyContent="center" alignItems="center" margin={2}>
-      <Paper
-        variant="elevation"
-        elevation={3}
-        sx={{
-          padding: theme.spacing(2),
-          margin: theme.spacing(2),
-          maxWidth: theme.breakpoints.values.md,
-          background: theme.palette.primary.main,
-        }}
-      >
-        <Chart
-          options={options}
-          series={series}
-          type="bar"
-          width={checkIfMobile ? theme.breakpoints.values.sm : 345}
-          height={300}
-        />
-      </Paper>
+      <Chart
+        options={options}
+        series={series}
+        type="bar"
+        width={checkIfMobile ? theme.breakpoints.values.sm : 345}
+        height={300}
+      />
     </Box>
   ) : (
     <Box display="flex" justifyContent="center" alignItems="center" m={2}>
