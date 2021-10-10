@@ -1,0 +1,322 @@
+import BoujeeChart from "./common/Chart";
+import React, { useContext, useEffect, useState } from "react";
+import Axios, { AxiosResponse } from "axios";
+import { ILists } from "./common/lib/types/List";
+import { useHistory } from "react-router";
+import UserContext from "./common/context/userContext";
+import {
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Tooltip,
+  useMediaQuery,
+} from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { Box, useTheme } from "@mui/system";
+import { CssTextField } from "./login";
+import { useSnackbar } from "notistack";
+import Delete from "@mui/icons-material/DeleteForever";
+
+export const Dashboard: React.FC<{}> = (props) => {
+  const [showNew, setShowNew] = useState<boolean>(false);
+  const [editMonth, setEditMonth] = useState<boolean>(false);
+  const [months, setMonths] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [percent, setPercent] = useState<number>(0);
+  const [numberList, setNumberlList] = useState<ILists>([]);
+  // const [newName, setNewName] = useState<string>("");
+  const [newNumber, setNewNumber] = useState<number>(0);
+  const history = useHistory();
+  const appContext = useContext(UserContext);
+  const theme = useTheme();
+  const snackbar = useSnackbar();
+  const checkIfMobile = useMediaQuery("(min-width: 600px)");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      localStorage.removeItem("token");
+      history.replace("/login");
+    } else {
+      (async () => {
+        await Axios.get<ILists>("http://localhost:5000/read", {
+          headers: { "x-access-token": localStorage.getItem("token") },
+        }).then((response: AxiosResponse) => {
+          setNumberlList(response.data);
+        });
+      })();
+    }
+  }, [history, appContext]);
+
+  const onAdd = async () => {
+    console.log(name);
+    console.log(percent);
+    try {
+      await Axios.post("http://localhost:5000/insert", {
+        month: name,
+        percent: percent,
+      });
+      snackbar.enqueueSnackbar("New stats added!", { variant: "success" });
+      setShowNew(false);
+    } catch (error) {
+      snackbar.enqueueSnackbar("Something went wrong", { variant: "error" });
+    }
+  };
+
+  const updateData = async (id: string) => {
+    const numberId = numberList.find((f) => f._id === id);
+    try {
+      numberId &&
+        (await Axios.put(`http://localhost:5000/numbers/${numberId._id}`, {
+          id: numberId,
+          percent: newNumber,
+        }));
+      window.location.reload();
+      snackbar.enqueueSnackbar(`${numberId && numberId.month} updated!`, {
+        variant: "success",
+      });
+    } catch (error) {
+      console.error();
+      snackbar.enqueueSnackbar("Error trying to delete, ask O.T!", {
+        variant: "error",
+      });
+    }
+  };
+
+  const onDelete = async (id: string) => {
+    try {
+      const numberId = numberList.find((f) => f._id === id);
+      await Axios.delete(`http://localhost:5000/delete/${numberId?._id}`);
+      snackbar.enqueueSnackbar(`${numberId && numberId.month} deleted!`, {
+        variant: "success",
+      });
+    } catch (error) {
+      console.error();
+      snackbar.enqueueSnackbar("Error trying to delete, ask O.T!", {
+        variant: "error",
+      });
+    }
+  };
+
+  const onChangeNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPercent(Number(e.target.value));
+  };
+
+  const onChangeNewNumber = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setNewNumber(Number(e.target.value));
+  };
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setMonths(event.target.value);
+    setEditMonth(true);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    history.push("/login");
+  };
+
+  return appContext ? (
+    <Container>
+      <Box display="flex" flexDirection="row" justifyContent="flex-end">
+        {/*  <Button
+          endIcon={<Add color="secondary" />}
+          onClick={() => setShowNew(true)}
+          variant="outlined"
+          color="secondary"
+          sx={{
+            marginTop: "16px",
+            padding: "10px",
+            display: "flex",
+            justifyContent: "flex-start",
+          }}
+        >
+          Add new stats
+        </Button> */}
+        <Button
+          onClick={logout}
+          variant="outlined"
+          color="secondary"
+          sx={{
+            marginTop: "16px",
+            padding: "10px",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          Logout
+        </Button>
+      </Box>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        width="100%"
+      >
+        <BoujeeChart />
+      </Box>
+
+      {showNew && (
+        <Paper
+          variant="elevation"
+          elevation={3}
+          sx={{
+            padding: theme.spacing(2),
+            margin: theme.spacing(2),
+            maxWidth: theme.breakpoints.values.md,
+            background: theme.palette.primary.main,
+          }}
+        >
+          <Grid container spacing={4}>
+            <Grid item xs={12}>
+              <CssTextField
+                autoFocus
+                id="filled-basic"
+                label="Month"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                variant="outlined"
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CssTextField
+                autoFocus
+                id="filled-basic"
+                label="Percent"
+                type="number"
+                onChange={onChangeNumber}
+                variant="outlined"
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button onClick={onAdd} variant="outlined" color="secondary">
+                Send new stats
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
+      )}
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        width="100%"
+      >
+        <Paper
+          variant="elevation"
+          elevation={3}
+          sx={{
+            padding: theme.spacing(2),
+            margin: theme.spacing(2),
+            background: theme.palette.primary.main,
+          }}
+        >
+          <InputLabel id="select-month">Edit Month ROI %</InputLabel>
+          <Select
+            variant="outlined"
+            color="info"
+            id="select-month"
+            value={months}
+            onChange={handleChange}
+            sx={{
+              width: checkIfMobile ? theme.breakpoints.values.sm : 345,
+              background: "#0784b5",
+            }}
+          >
+            {numberList.map((option, index) => (
+              <MenuItem key={index} value={option._id}>
+                {option.month}, {option.percent} %
+              </MenuItem>
+            ))}
+          </Select>
+        </Paper>
+      </Box>
+      {editMonth && (
+        <>
+          <Box display="flex" justifyContent="center" width={"100%"} mt={2}>
+            <CssTextField
+              name="newNumber"
+              autoFocus
+              id="filled-basic"
+              label="Return of Investment %"
+              type="number"
+              defaultValue={months}
+              onChange={(e) => onChangeNewNumber(e)}
+              variant="outlined"
+              InputLabelProps={{ shrink: true }}
+              multiline={false}
+            />
+            <Button
+              size="large"
+              variant="contained"
+              color="secondary"
+              onClick={() => updateData(months)}
+              sx={{ marginLeft: "8px", marginRight: '"8px' }}
+            >
+              Update
+            </Button>
+            <Tooltip title="Delete" placement="top">
+              <IconButton
+                onClick={() => onDelete(months)}
+                size="large"
+                sx={{ height: 56, width: 56 }}
+              >
+                <Delete color="secondary" sx={{ height: 56, width: 56 }} />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          {/*        
+          {numberList.map((value, key) => (
+            <div
+              key={key}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                border: "1px solid grey",
+                margin: "10px",
+              }}
+            >
+              <p style={{ paddingRight: "4px" }}>Month: {value.month}</p>
+              <p style={{ paddingRight: "4px" }}>Percent: {value.percent} %</p>
+              {/*    <input type="text" onChange={(e) => setNewName(e.target.value)} />
+          <button onClick={() => update(value._id)} style={{ margin: "10px" }}>
+            Update Name
+          </button> 
+              <input type="number" onChange={onChangeNewNumber} />
+              <button
+                onClick={() => updateData(value._id)}
+                style={{ margin: "10px" }}
+              >
+                Update ROI %
+              </button>
+              <button
+                onClick={() => onDelete(value._id)}
+                style={{ margin: "10px" }}
+              >
+                Delete
+              </button>
+            </div>
+          ))}
+
+
+ */}
+        </>
+      )}
+    </Container>
+  ) : (
+    <>
+      <h2>You are not logged in</h2>
+    </>
+  );
+};
+export default Dashboard;
