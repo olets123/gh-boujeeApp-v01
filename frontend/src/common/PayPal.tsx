@@ -3,7 +3,7 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 export const PayPal = () => {
   const options = {
     "client-id":
-      "Adfg4auv5WT05bcCncukkEKHPwifv8gYGLKj0yQdsnt26TWgBl9R5u5WtHqoVlGvmof0rA5x-IU9HKpJ",
+      "AVM4IyQ5Hbl8lKhpk9zKbTf9T1VFciTHz9T83C4CY1L6zw88y90LmkM1Dc3hnYiLY7Ryd7L-5dU6AcBx",
     currency: "EUR",
   };
 

@@ -37,7 +37,7 @@ export const Home: React.FC<{}> = (props) => {
           </Grid>
           <Grid item xs={12}>
             <Box display="flex" justifyContent="center" m={0} width="100%">
-              {/* <Paper
+              <Paper
                 variant="elevation"
                 elevation={3}
                 sx={{
@@ -50,9 +50,9 @@ export const Home: React.FC<{}> = (props) => {
                   maxWidth: checkIfMobile ? theme.breakpoints.values.sm : 375,
                   background: theme.palette.primary.main,
                 }}
-              > */}
-              <PayPal />
-              {/*   </Paper> */}
+              >
+                <PayPal />
+              </Paper>
             </Box>
           </Grid>
         </Grid>
