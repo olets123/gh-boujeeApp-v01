@@ -5,11 +5,11 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend npm run build --prefix frontend"
   },
   "engines": {
     "node": "15.9.0"
-},
+  },
   "license": "MIT",
   "dependencies": {
     "@types/bcrypt": "^5.0.0",

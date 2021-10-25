@@ -1,17 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
+require("dotenv").config({ path: "./config.env" });
+const path = require("path");
 const cors = require("cors");
 const app = express();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const BoujeeModel = require("./models/Boujee");
 const User = require("./models/user.model");
-app.use(express.static(path.join(__dirname, "frontend", "build")));
 app.use(express.json());
 app.use(cors());
-require("dotenv").config();
 
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -76,42 +76,7 @@ app.get("/api/users", cors(), (req, res) => {
   res.json({
     id: user._id,
   });
-  /*  User.find({}, (err, result) => {
-    if (err) {
-      res.send(err);
-    }
-    res.send(result);
-  }); */
 });
-
-/* app.post("/api/login", cors(), async (req, res) => {
-  const user = await User.findOne({
-    email: req.body.email,
-  });
-
-  if (!user) {
-    return { status: "error", error: "Invalid login" };
-  }
-
-  const isPasswordValid = await bcrypt.compare(
-    req.body.password,
-    user.password
-  );
-
-  if (isPasswordValid) {
-    const token = jwt.sign(
-      {
-        name: user.name,
-        email: user.email,
-      },
-      "secret-shit"
-    );
-
-    return res.json({ status: "ok", user: token });
-  } else {
-    return res.json({ status: "error", user: false });
-  }
-}); */
 
 app.put("/numbers/:id", cors(), async (req, res) => {
   const newNumber = req.body.percent;
@@ -142,6 +107,17 @@ app.delete("/delete/:id", cors(), async (req, res) => {
   await BoujeeModel.findByIdAndRemove(id).exec();
   res.send("Deleted");
 });
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("Api runnning!");
+  });
+}
 
 const PORT = process.env.PORT || 5000;
 
