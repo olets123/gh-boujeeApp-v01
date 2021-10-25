@@ -4,8 +4,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
+  "engines": {
+    "node": "15.9.0"
+},
   "license": "MIT",
   "dependencies": {
     "@types/bcrypt": "^5.0.0",

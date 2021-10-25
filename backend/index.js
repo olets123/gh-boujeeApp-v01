@@ -6,17 +6,15 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const BoujeeModel = require("./models/Boujee");
 const User = require("./models/user.model");
-
+app.use(express.static(path.join(__dirname, "frontend", "build")));
 app.use(express.json());
 app.use(cors());
+require("dotenv").config();
 
-mongoose.connect(
-  "mongodb+srv://boujeeSB:H9rDMM94Qn4qemuL@cluster0.gi8y4.mongodb.net/boujee?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.post("/api/register", cors(), async (req, res) => {
   console.log(req.body);
@@ -145,6 +143,8 @@ app.delete("/delete/:id", cors(), async (req, res) => {
   res.send("Deleted");
 });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000..");
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}..`);
 });
