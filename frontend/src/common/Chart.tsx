@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { ILists } from "./lib/types/List";
 import { Box } from "@mui/system";
-import { Paper, useMediaQuery, useTheme } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import "../index.css";
 
