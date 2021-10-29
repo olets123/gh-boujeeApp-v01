@@ -11,10 +11,14 @@ const User = require("./models/user.model");
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  process.env.MONGODB_CONNECTION_STRING ||
+    "mongodb+srv://boujeeSB:H9rDMM94Qn4qemuL@cluster0.gi8y4.mongodb.net/boujee?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 app.post("/api/register", cors(), async (req, res) => {
   console.log(req.body);
