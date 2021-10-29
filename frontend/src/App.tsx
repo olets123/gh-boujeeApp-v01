@@ -17,6 +17,7 @@ const App = (props: any) => {
     token: "",
     user: undefined,
   });
+  const apiURL: string = "https://gentle-garden-79693.herokuapp.com";
 
   useEffect(() => {
     const checkLoggedIn = async () => {
@@ -25,13 +26,11 @@ const App = (props: any) => {
         localStorage.setItem("token", "");
         token = "";
       }
-      const tokenResponse = await axios.post(
-        "http://localhost:5000/api/validToken",
-        null,
-        { headers: { "x-auth-token": token } }
-      );
+      const tokenResponse = await axios.post(`${apiURL}/api/validToken`, null, {
+        headers: { "x-auth-token": token },
+      });
       if (tokenResponse.data) {
-        const userRes = await axios.get("http://localhost:5000/api/users", {
+        const userRes = await axios.get(`${apiURL}/api/users`, {
           headers: { "x-auth-token": token },
         });
         setUserData({

@@ -12,11 +12,12 @@ export const BoujeeChart: React.FC<{}> = (props) => {
   const [data, setData] = useState<ILists>([]);
   const checkIfMobile = useMediaQuery("(min-width: 600px)");
   const theme = useTheme();
+  const apiURL: string = "https://gentle-garden-79693.herokuapp.com";
 
   useEffect(() => {
     (async () => {
       try {
-        await Axios.get<ILists>("http://localhost:5000/read").then(
+        await Axios.get<ILists>(`${apiURL}/read`).then(
           (response: AxiosResponse) => {
             setData(response.data);
             setIsLoading(true);

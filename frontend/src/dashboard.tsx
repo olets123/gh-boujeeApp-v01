@@ -35,6 +35,7 @@ export const Dashboard: React.FC<{}> = (props) => {
   const theme = useTheme();
   const snackbar = useSnackbar();
   const checkIfMobile = useMediaQuery("(min-width: 600px)");
+  const apiURL: string = "https://gentle-garden-79693.herokuapp.com";
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -43,7 +44,7 @@ export const Dashboard: React.FC<{}> = (props) => {
       history.replace("/login");
     } else {
       (async () => {
-        await Axios.get<ILists>("http://localhost:5000/read", {
+        await Axios.get<ILists>(`${apiURL}/read`, {
           headers: { "x-access-token": localStorage.getItem("token") },
         }).then((response: AxiosResponse) => {
           setNumberlList(response.data);
@@ -56,7 +57,7 @@ export const Dashboard: React.FC<{}> = (props) => {
     console.log(name);
     console.log(percent);
     try {
-      await Axios.post("http://localhost:5000/insert", {
+      await Axios.post(`${apiURL}/insert`, {
         month: name,
         percent: percent,
       });
@@ -71,7 +72,7 @@ export const Dashboard: React.FC<{}> = (props) => {
     const numberId = numberList.find((f) => f._id === id);
     try {
       numberId &&
-        (await Axios.put(`http://localhost:5000/numbers/${numberId._id}`, {
+        (await Axios.put(`${apiURL}/numbers/${numberId._id}`, {
           id: numberId,
           percent: newNumber,
         }));
@@ -90,7 +91,7 @@ export const Dashboard: React.FC<{}> = (props) => {
   const onDelete = async (id: string) => {
     try {
       const numberId = numberList.find((f) => f._id === id);
-      await Axios.delete(`http://localhost:5000/delete/${numberId?._id}`);
+      await Axios.delete(`${apiURL}/delete/${numberId && numberId._id}`);
       snackbar.enqueueSnackbar(`${numberId && numberId.month} deleted!`, {
         variant: "success",
       });
@@ -125,20 +126,6 @@ export const Dashboard: React.FC<{}> = (props) => {
   return appContext ? (
     <Container>
       <Box display="flex" flexDirection="row" justifyContent="flex-end">
-        {/*  <Button
-          endIcon={<Add color="secondary" />}
-          onClick={() => setShowNew(true)}
-          variant="outlined"
-          color="secondary"
-          sx={{
-            marginTop: "16px",
-            padding: "10px",
-            display: "flex",
-            justifyContent: "flex-start",
-          }}
-        >
-          Add new stats
-        </Button> */}
         <Button
           onClick={logout}
           variant="outlined"
@@ -274,42 +261,6 @@ export const Dashboard: React.FC<{}> = (props) => {
               </IconButton>
             </Tooltip>
           </Box>
-          {/*        
-          {numberList.map((value, key) => (
-            <div
-              key={key}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                border: "1px solid grey",
-                margin: "10px",
-              }}
-            >
-              <p style={{ paddingRight: "4px" }}>Month: {value.month}</p>
-              <p style={{ paddingRight: "4px" }}>Percent: {value.percent} %</p>
-              {/*    <input type="text" onChange={(e) => setNewName(e.target.value)} />
-          <button onClick={() => update(value._id)} style={{ margin: "10px" }}>
-            Update Name
-          </button> 
-              <input type="number" onChange={onChangeNewNumber} />
-              <button
-                onClick={() => updateData(value._id)}
-                style={{ margin: "10px" }}
-              >
-                Update ROI %
-              </button>
-              <button
-                onClick={() => onDelete(value._id)}
-                style={{ margin: "10px" }}
-              >
-                Delete
-              </button>
-            </div>
-          ))}
-
-
- */}
         </>
       )}
     </Container>

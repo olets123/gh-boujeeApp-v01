@@ -30,11 +30,12 @@ export const Login = (props: any) => {
   const theme = useTheme();
   const snackbar = useSnackbar();
   const history = useHistory();
+  const apiURL: string = "https://gentle-garden-79693.herokuapp.com";
 
   const loginUser = async (event: any) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
+      const response = await fetch(`${apiURL}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -134,24 +135,3 @@ export const Login = (props: any) => {
   );
 };
 export default Login;
-
-/* 
-
- <form onSubmit={loginUser}>
-        <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="email"
-          placeholder="Email"
-        />
-        <br />
-        <input
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          placeholder="Password"
-        />
-        <br />
-        <input type="submit" value="Login" />
-      </form>
-*/
