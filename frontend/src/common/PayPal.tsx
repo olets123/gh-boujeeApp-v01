@@ -18,7 +18,6 @@ export const PayPal: React.FC = () => {
   };
   return (
     <div>
-      {/* <button onClick={() => setOpen(true)}>OPEN</button> */}
       <PayPalScriptProvider options={options}>
         <PayPalButtons
           style={{
