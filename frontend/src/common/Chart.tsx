@@ -35,7 +35,7 @@ export const BoujeeChart: React.FC<{}> = (props) => {
 
   const options = {
     title: {
-      text: "Return of Investment %",
+      text: "Return of Investment 2021 %",
     },
     chart: {
       id: "boujeeChart",
