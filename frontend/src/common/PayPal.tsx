@@ -36,7 +36,7 @@ const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
             return orderId;
           });
       }}
-      /* onApprove={(data, actions) => {
+      onApprove={(data, actions) => {
         return actions.order.capture().then((details) => {
           if (details.status === "COMPLETED") {
             onOpen(details.payer.email_address);
@@ -44,16 +44,7 @@ const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
             alert("Something went wrong.. !");
           }
         });
-      }} */
-      onApprove={(data, actions) =>
-        actions.order.capture().then((details) => {
-          if (details.status === "COMPLETED") {
-            onOpen(details.payer.email_address);
-          } else {
-            alert("Something went wrong.. !");
-          }
-        })
-      }
+      }}
       style={{
         label: "subscribe",
       }}
