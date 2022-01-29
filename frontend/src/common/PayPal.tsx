@@ -37,7 +37,7 @@ const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
           });
       }}
       onApprove={(data, actions) => {
-        return actions?.order?.capture().then((details) => {
+        return actions.order.capture().then((details) => {
           if (details.status === "COMPLETED") {
             onOpen(details.payer.email_address);
           } else {
