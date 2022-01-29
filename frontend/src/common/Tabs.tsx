@@ -51,8 +51,8 @@ export const BoujeeTabs: React.FC = () => {
           textColor="secondary"
           centered
         >
-          <Tab label="ROI 2021" {...a11yProps(0)} />
-          <Tab label="ROI 2022" {...a11yProps(1)} />
+          <Tab label="Previous Year" {...a11yProps(0)} />
+          <Tab label="Current Year" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>

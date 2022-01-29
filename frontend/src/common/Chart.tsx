@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { ILists } from "./lib/types/List";
 import { Box } from "@mui/system";
-import { useMediaQuery, useTheme } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
+import { Skeleton, useMediaQuery, useTheme } from "@mui/material";
 import "../index.css";
 
 interface IBoujeeChart {
@@ -101,7 +100,12 @@ export const BoujeeChart: React.FC<IBoujeeChart> = (props) => {
     </Box>
   ) : (
     <Box display="flex" justifyContent="center" alignItems="center" m={2}>
-      <CircularProgress color="secondary" />
+      <Skeleton
+        variant="rectangular"
+        animation="pulse"
+        width={checkIfMobile ? theme.breakpoints.values.sm : 345}
+        height={300}
+      />
     </Box>
   );
 };
