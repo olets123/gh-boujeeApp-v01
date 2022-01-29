@@ -50,9 +50,9 @@ export const ModalCompleted: React.FC<Success> = ({
                 <Typography variant="body1">Telegram:</Typography>
                 <Link
                   sx={{ color: "lightblue", paddingLeft: "8px" }}
-                  href="www.telegram.com"
+                  href="https://t.me/+aadL2Bhyc1AzMzhk"
                 >
-                  www.telegram.com/martin
+                  BBB VIP Channel
                 </Link>
               </Box>
             </Box>

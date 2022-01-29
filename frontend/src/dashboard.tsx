@@ -20,12 +20,16 @@ import { Box, useTheme } from "@mui/system";
 import { CssTextField } from "./login";
 import { useSnackbar } from "notistack";
 import Delete from "@mui/icons-material/DeleteForever";
+import Refresh from "@mui/icons-material/Refresh";
+
+type RoiYears = "2021" | "2022";
 
 export const Dashboard: React.FC<{}> = (props) => {
   const [showNew, setShowNew] = useState<boolean>(false);
   const [editMonth, setEditMonth] = useState<boolean>(false);
   const [months, setMonths] = useState<string>("");
   const [name, setName] = useState<string>("");
+  const [selectedYear, setSelectedYear] = useState<RoiYears>("2021");
   const [percent, setPercent] = useState<number>(0);
   const [numberList, setNumberlList] = useState<ILists>([]);
   // const [newName, setNewName] = useState<string>("");
@@ -54,8 +58,6 @@ export const Dashboard: React.FC<{}> = (props) => {
   }, [history, appContext]);
 
   const onAdd = async () => {
-    console.log(name);
-    console.log(percent);
     try {
       await Axios.post(`${apiURL}/insert`, {
         month: name,
@@ -76,7 +78,6 @@ export const Dashboard: React.FC<{}> = (props) => {
           id: numberId,
           percent: newNumber,
         }));
-      window.location.reload();
       snackbar.enqueueSnackbar(`${numberId && numberId.month} updated!`, {
         variant: "success",
       });
@@ -146,7 +147,7 @@ export const Dashboard: React.FC<{}> = (props) => {
         alignItems="center"
         width="100%"
       >
-        <BoujeeChart />
+        <BoujeeChart year={selectedYear} />
       </Box>
 
       {showNew && (
@@ -194,10 +195,39 @@ export const Dashboard: React.FC<{}> = (props) => {
       )}
       <Box
         display="flex"
+        flexDirection={"column"}
         justifyContent="center"
         alignItems="center"
         width="100%"
       >
+        <Paper
+          variant="elevation"
+          elevation={3}
+          sx={{
+            padding: theme.spacing(2),
+            margin: theme.spacing(2),
+            background: theme.palette.primary.main,
+          }}
+        >
+          <InputLabel id="select-year">Select Year to Edit ROI %</InputLabel>
+          <Select
+            variant="outlined"
+            color="info"
+            id="select-year"
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value as RoiYears)}
+            sx={{
+              width: checkIfMobile ? theme.breakpoints.values.sm : 345,
+              background: "#0784b5",
+            }}
+          >
+            {["2021", "2022"].map((option, index) => (
+              <MenuItem key={index} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+        </Paper>
         <Paper
           variant="elevation"
           elevation={3}
@@ -219,11 +249,13 @@ export const Dashboard: React.FC<{}> = (props) => {
               background: "#0784b5",
             }}
           >
-            {numberList.map((option, index) => (
-              <MenuItem key={index} value={option._id}>
-                {option.month}, {option.percent} %
-              </MenuItem>
-            ))}
+            {numberList
+              .filter((f) => f.year === selectedYear)
+              .map((option, index) => (
+                <MenuItem key={index} value={option._id}>
+                  {option.month}, {option.percent} %
+                </MenuItem>
+              ))}
           </Select>
         </Paper>
       </Box>
@@ -263,6 +295,24 @@ export const Dashboard: React.FC<{}> = (props) => {
           </Box>
         </>
       )}
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+          <Button
+            size="large"
+            startIcon={<Refresh />}
+            color="secondary"
+            variant="outlined"
+            onClick={() => window.location.reload()}
+            sx={{
+              marginTop: "32px",
+              marginLeft: "8px",
+              marginRight: '"8px',
+            }}
+          >
+            REFETCH When updated
+          </Button>
+        </Box>
+      </Box>
     </Container>
   ) : (
     <>

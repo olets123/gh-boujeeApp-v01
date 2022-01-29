@@ -1,12 +1,12 @@
 import { Grid } from "@mui/material";
 import Container from "@mui/material/Container";
-import BoujeeChart from "./common/Chart";
 import PayPal from "./common/PayPal";
 import { Paper, useMediaQuery } from "@mui/material";
 import { Box, useTheme } from "@mui/system";
 import Typography from "@mui/material/Typography";
+import BoujeeTabs from "./common/Tabs";
 
-export const Home: React.FC<{}> = (props) => {
+export const Home: React.FC = () => {
   const theme = useTheme();
   const checkIfMobile = useMediaQuery("(min-width: 600px)");
 
@@ -15,7 +15,7 @@ export const Home: React.FC<{}> = (props) => {
       <Box display="flex" justifyContent="center" width="100%">
         <Grid container>
           <Grid item xs={12}>
-            <BoujeeChart />
+            <BoujeeTabs />
           </Grid>
           <Grid item xs={12}>
             <Box display="flex" justifyContent="center" m={0} width="100%">
@@ -82,12 +82,6 @@ export const Home: React.FC<{}> = (props) => {
                 >
                   Good bookies to have: Bet365, Pinnacle, Kambi. We post all our
                   bets in a Telegram group.
-                </Typography>
-                <Typography
-                  variant="subtitle1"
-                  sx={{ paddingBottom: theme.spacing(2) }}
-                >
-                  We post all our bets in a Telegram group.
                 </Typography>
               </Paper>
             </Box>

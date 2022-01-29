@@ -7,7 +7,11 @@ import { useMediaQuery, useTheme } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import "../index.css";
 
-export const BoujeeChart: React.FC<{}> = (props) => {
+interface IBoujeeChart {
+  year: "2021" | "2022";
+}
+
+export const BoujeeChart: React.FC<IBoujeeChart> = (props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState<ILists>([]);
   const checkIfMobile = useMediaQuery("(min-width: 600px)");
@@ -30,16 +34,26 @@ export const BoujeeChart: React.FC<{}> = (props) => {
     })();
   }, []);
 
-  const months = data.map((m) => m.month);
-  const number = data.map((n) => n.percent);
+  const dataFor2021 = data.filter((y) => y.year === "2021");
+  const dataFor2022 = data.filter((year) => year.year === "2022");
+  const months2021 = dataFor2021.map((d) => d.month);
+  const percent2021 = dataFor2021.map((d) => d.percent);
+  const months2022 = dataFor2022.map((d) => d.month);
+  const percent2022 = dataFor2022.map((d) => d.percent);
 
   const options = {
     title: {
-      text: "Return of Investment 2021 %",
+      text: `Return of Investment ${props.year === "2021" ? "2021" : "2022"}%`,
     },
     chart: {
       id: "boujeeChart",
       foreColor: "#e6f2f7",
+      toolbar: {
+        show: false,
+        tools: {
+          download: false,
+        },
+      },
     },
     colors: ["#0784b5"],
     markers: {
@@ -58,17 +72,25 @@ export const BoujeeChart: React.FC<{}> = (props) => {
       },
     },
     xaxis: {
-      categories: months,
+      categories: props.year === "2022" ? months2021 : months2022,
     },
   };
+
   const series = [
     {
       name: "ROI",
-      data: number,
+      data: props.year === "2021" ? percent2021 : percent2022,
     },
   ];
+
   return isLoading ? (
-    <Box display="flex" justifyContent="center" alignItems="center" margin={2}>
+    <Box
+      display="flex"
+      flexDirection={"column"}
+      justifyContent="center"
+      alignItems="center"
+      margin={2}
+    >
       <Chart
         options={options}
         series={series}
