@@ -2267,36 +2267,36 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@paypal/paypal-js@npm:^4.0.6":
-  version: 4.0.7
-  resolution: "@paypal/paypal-js@npm:4.0.7"
+"@paypal/paypal-js@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "@paypal/paypal-js@npm:5.0.2"
   dependencies:
-    promise-polyfill: ^8.2.0
-  checksum: c2c7763706bec0e51bbf3d16fd0f79db1d334e56fc510b484ab01c6165d010832113c2a5a250518052ff6671115d977fa4262920902c75282acb679b1b201eaa
+    promise-polyfill: ^8.2.1
+  checksum: 71c0b72e30e5b296a69bf282bd3f08da418c4b85dac4fd294c60c4367345d4820ac255606689343aeffa6c388a0c38ae1098b7de6a959970a98083769c18d148
   languageName: node
   linkType: hard
 
-"@paypal/react-paypal-js@npm:^7.2.1":
-  version: 7.2.1
-  resolution: "@paypal/react-paypal-js@npm:7.2.1"
+"@paypal/react-paypal-js@npm:^7.6.0":
+  version: 7.6.0
+  resolution: "@paypal/react-paypal-js@npm:7.6.0"
   dependencies:
-    "@paypal/paypal-js": ^4.0.6
-    "@paypal/sdk-constants": ^1.0.107
+    "@paypal/paypal-js": ^5.0.2
+    "@paypal/sdk-constants": ^1.0.116
   peerDependencies:
     react: ">=16.3.0"
     react-dom: ">=16.3.0"
-  checksum: 23fe09fa064e24c7d9f2f7c4582b48ca25bd2bda207e1b8f6edc0a605b919a01c9ef529bd6ed9687ae08085b48fb5ecdaee67f353a8becc4786359f93a9eaf66
+  checksum: 4d81bdff732c6eff4b2976f63399ae1f4b2369bb839800eb30b8dd1e1ec18df65395e2e2672aa6e84f20a38f30832a78808096dfd989efb3c8d404c17b0f6cdd
   languageName: node
   linkType: hard
 
-"@paypal/sdk-constants@npm:^1.0.107":
-  version: 1.0.107
-  resolution: "@paypal/sdk-constants@npm:1.0.107"
+"@paypal/sdk-constants@npm:^1.0.116":
+  version: 1.0.116
+  resolution: "@paypal/sdk-constants@npm:1.0.116"
   dependencies:
     cross-domain-utils: ^2.0.10
     hi-base32: ^0.5.0
     zalgo-promise: ^1.0.28
-  checksum: 644c243c7ed8ee856a70e1727a9bf6363a20e5cc930ad000a148718862b40e9d899bb93463ca19c6e340265d1cbc00b49782eecc2ef74f265df4a2f5454b17c8
+  checksum: b1cd4b938ee348ff99b8f75ff37b42d646252cfab93239ce69aa791a5659ab6c36ad8065d038453d5a1d9d136a55dee900270c737f071cfe84b60e878581af11
   languageName: node
   linkType: hard
 
@@ -4402,7 +4402,7 @@ __metadata:
     "@emotion/styled": ^11.3.0
     "@mui/icons-material": ^5.3.1
     "@mui/material": ^5.0.1
-    "@paypal/react-paypal-js": ^7.2.1
+    "@paypal/react-paypal-js": ^7.6.0
     "@testing-library/jest-dom": ^5.11.4
     "@testing-library/react": ^11.1.0
     "@testing-library/user-event": ^12.1.10
@@ -12989,10 +12989,10 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"promise-polyfill@npm:^8.2.0":
-  version: 8.2.0
-  resolution: "promise-polyfill@npm:8.2.0"
-  checksum: e1edbf249259e64819d801b5cb59cf218e52d603bf7b23083a8f40ab4015f25b7de0c8373b26322643c7ab234fa37103f39f9c92b15d31249487546cd8e2be9b
+"promise-polyfill@npm:^8.2.1":
+  version: 8.2.1
+  resolution: "promise-polyfill@npm:8.2.1"
+  checksum: bd2601d28c18086493d1eb0f4a5a538557600063b2a13aa9dfd89b69c28a3435ce6e0efac9049d1b13f0ed392730326b23c8c56c99be8abf708036245ece5192
   languageName: node
   linkType: hard
 

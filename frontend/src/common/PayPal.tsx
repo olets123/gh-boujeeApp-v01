@@ -46,8 +46,8 @@ const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
       }}
       onApprove={async (data, actions) => {
         if (subId) {
-          return await actions.order
-            .capture()
+          return await actions?.order
+            ?.capture()
             .then((details) =>
               details.status === "COMPLETED" ? onOpen(`${details.payer.email_address} + ${data.orderID}`) : undefined
             )
