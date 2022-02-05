@@ -43,16 +43,8 @@ const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
           })
       }}
       onApprove={async (data, actions) => {
-        if (actions.order) {
-          const order = await actions.order.capture()
-          if (order) {
-            if (order.status === "COMPLETED") {
-              onOpen(`${order.payer.email_address} + ${data.orderID}`)
-            } else {
-              alert("Something went wrong.. !")
-            }
-          }
-        }
+        onOpen(` ${data.orderID}`)
+        return await actions.order?.capture().then()
       }}
       onError={(error) => alert(error)}
       style={{
