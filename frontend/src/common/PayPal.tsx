@@ -43,13 +43,14 @@ const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
           })
       }}
       onApprove={async (data, actions) => {
-        return await actions.order.capture().then((details) => {
-          if (details.status === "COMPLETED") {
-            onOpen(`${details.payer.email_address} + ${data.orderID}`)
+        const order = await actions.order.capture()
+        if (order) {
+          if (order.status === "COMPLETED") {
+            onOpen(`${order.payer.email_address} + ${data.orderID}`)
           } else {
             alert("Something went wrong.. !")
           }
-        })
+        }
       }}
       onError={(error) => alert(error)}
       style={{
