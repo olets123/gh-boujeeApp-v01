@@ -21,17 +21,7 @@ const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type])
 
-  /* onApprove={(data, actions) => {
-        return actions.order.capture().then((details) => {
-          if (details.status === "COMPLETED") {
-            onOpen(details.payer.email_address);
-          } else {
-            alert("Something went wrong.. !");
-          }
-        });
-      }} */
-
-  const onApproveData = (data: any, actions: any) => {
+  /* const onApproveData = (data: any, actions: any) => {
     return actions.order.capture().then((details: any) => {
       if (details.status === "COMPLETED") {
         onOpen(`${details.payer.email_address} + ${data.orderID}`)
@@ -39,7 +29,7 @@ const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
         alert("Something went wrong.. !")
       }
     })
-  }
+  } */
 
   return (
     <PayPalButtons
@@ -52,16 +42,16 @@ const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
             return orderId
           })
       }}
-      onApprove={onApproveData}
-      /*  onApprove={(data, actions) => {
-        return actions.order.capture().then((details) => {
+      onApprove={async (data, actions) => {
+        return await actions.order.capture().then((details) => {
           if (details.status === "COMPLETED") {
             onOpen(`${details.payer.email_address} + ${data.orderID}`)
           } else {
             alert("Something went wrong.. !")
           }
         })
-      }} */
+      }}
+      onError={(error) => alert(error)}
       style={{
         label: "subscribe",
       }}
