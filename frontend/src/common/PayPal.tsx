@@ -9,7 +9,6 @@ interface ButtonProps {
 
 const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
   const [{ options }, dispatch] = usePayPalScriptReducer()
-  const [subId, setSubId] = useState<string>("")
 
   useEffect(() => {
     dispatch({
@@ -40,7 +39,6 @@ const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
             plan_id: "P-1XT149815W653711XMDNBSVQ",
           })
           .then((orderId) => {
-            setSubId(orderId)
             return orderId
           })
       }}
