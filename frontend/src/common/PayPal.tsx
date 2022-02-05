@@ -9,6 +9,7 @@ interface ButtonProps {
 
 const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
   const [{ options }, dispatch] = usePayPalScriptReducer()
+  const [subId, setSubId] = useState<string>("")
 
   useEffect(() => {
     dispatch({
@@ -39,15 +40,18 @@ const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
             plan_id: "P-1XT149815W653711XMDNBSVQ",
           })
           .then((orderId) => {
+            setSubId(orderId)
             return orderId
           })
       }}
       onApprove={async (data, actions) => {
-        return await actions.order
-          .capture()
-          .then((details) =>
-            details.status === "COMPLETED" ? onOpen(`${details.payer.email_address} + ${data.orderID}`) : undefined
-          )
+        if (subId) {
+          return await actions.order
+            .capture()
+            .then((details) =>
+              details.status === "COMPLETED" ? onOpen(`${details.payer.email_address} + ${data.orderID}`) : undefined
+            )
+        }
         /* if (actions) {
           const order = await actions.order.capture()
           if (order) {
