@@ -33,8 +33,8 @@ const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
 
   return (
     <PayPalButtons
-      createSubscription={(data, actions) => {
-        return actions.subscription
+      createSubscription={async (data, actions) => {
+        return await actions.subscription
           .create({
             plan_id: "P-1XT149815W653711XMDNBSVQ",
           })
@@ -43,12 +43,14 @@ const ButtonWrapper: React.FC<ButtonProps> = ({ type, onOpen }) => {
           })
       }}
       onApprove={async (data, actions) => {
-        const order = await actions?.order.capture()
-        if (order) {
-          if (order.status === "COMPLETED") {
-            onOpen(`${order.payer.email_address} + ${data.orderID}`)
-          } else {
-            alert("Something went wrong.. !")
+        if (actions) {
+          const order = await actions.order.capture()
+          if (order) {
+            if (order.status === "COMPLETED") {
+              onOpen(`${order.payer.email_address} + ${data.orderID}`)
+            } else {
+              alert("Something went wrong.. !")
+            }
           }
         }
       }}
