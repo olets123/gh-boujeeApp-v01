@@ -1,46 +1,46 @@
-import { BrowserRouter, Route } from "react-router-dom";
-import Login from "./login";
-import Dashboard from "./dashboard";
-import UserContext from "./common/context/userContext";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Home } from "./Home";
-import { ThemeProvider, Typography } from "@mui/material";
-import { boujeeTheme } from "./common/theme";
-import AppBar from "@mui/material/AppBar";
-import Paper from "@mui/material/Paper";
-import { SnackbarProvider } from "notistack";
-import Footer from "./common/Footer";
+import { BrowserRouter, Route } from "react-router-dom"
+import Login from "./login"
+import Dashboard from "./dashboard"
+import UserContext from "./common/context/userContext"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { Home } from "./Home"
+import { ThemeProvider, Typography } from "@mui/material"
+import { boujeeTheme } from "./common/theme"
+import AppBar from "@mui/material/AppBar"
+import Paper from "@mui/material/Paper"
+import { SnackbarProvider } from "notistack"
+import Footer from "./common/Footer"
 
 const App = (props: any) => {
   const [userData, setUserData] = useState({
     token: "",
     user: undefined,
-  });
-  const apiURL: string = "https://gentle-garden-79693.herokuapp.com";
+  })
+  const apiURL: string = "https://gentle-garden-79693.herokuapp.com"
 
   useEffect(() => {
     const checkLoggedIn = async () => {
-      let token = localStorage.getItem("token");
+      let token = localStorage.getItem("token")
       if (token === null) {
-        localStorage.setItem("token", "");
-        token = "";
+        localStorage.setItem("token", "")
+        token = ""
       }
       const tokenResponse = await axios.post(`${apiURL}/api/validToken`, null, {
         headers: { "x-auth-token": token },
-      });
+      })
       if (tokenResponse.data) {
         const userRes = await axios.get(`${apiURL}/api/users`, {
           headers: { "x-auth-token": token },
-        });
+        })
         setUserData({
           token,
           user: userRes.data,
-        });
+        })
       }
-    };
-    checkLoggedIn();
-  }, []);
+    }
+    checkLoggedIn()
+  }, [])
 
   return (
     <SnackbarProvider
@@ -107,7 +107,7 @@ const App = (props: any) => {
         </ThemeProvider>
       </BrowserRouter>
     </SnackbarProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App
