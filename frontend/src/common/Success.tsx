@@ -1,24 +1,20 @@
-import { Alert, Box, Link } from "@mui/material";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Typography from "@mui/material/Typography";
-import TelegramIcon from "@mui/icons-material/Telegram";
+import { Alert, Box, Link } from "@mui/material"
+import Button from "@mui/material/Button"
+import Dialog from "@mui/material/Dialog"
+import DialogActions from "@mui/material/DialogActions"
+import DialogContent from "@mui/material/DialogContent"
+import DialogContentText from "@mui/material/DialogContentText"
+import DialogTitle from "@mui/material/DialogTitle"
+import Typography from "@mui/material/Typography"
+import TelegramIcon from "@mui/icons-material/Telegram"
 
 interface Success {
-  name: string;
-  handleClose: () => void;
-  open: boolean;
+  name: string
+  handleClose: () => void
+  open: boolean
 }
 
-export const ModalCompleted: React.FC<Success> = ({
-  name,
-  handleClose,
-  open,
-}) => {
+export const ModalCompleted: React.FC<Success> = ({ name, handleClose, open }) => {
   return (
     <div>
       <Dialog
@@ -39,19 +35,13 @@ export const ModalCompleted: React.FC<Success> = ({
           </Alert>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText
-            id="alert-dialog-description"
-            sx={{ color: "white" }}
-          >
+          <DialogContentText id="alert-dialog-description" sx={{ color: "white" }}>
             <Box display={"flex"} flexDirection={"column"} mb={2}>
               <Box mb={2}>Payer: {name}</Box>
               <Box display={"flex"} flexDirection={"row"}>
                 <TelegramIcon sx={{ width: 25, paddingRight: "8px" }} />
                 <Typography variant="body1">Telegram:</Typography>
-                <Link
-                  sx={{ color: "lightblue", paddingLeft: "8px" }}
-                  href="https://t.me/+aadL2Bhyc1AzMzhk"
-                >
+                <Link sx={{ color: "lightblue", paddingLeft: "8px" }} href="https://t.me/+z6qh0oOes3RkYzU8">
                   BBB VIP Channel
                 </Link>
               </Box>
@@ -59,18 +49,12 @@ export const ModalCompleted: React.FC<Success> = ({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleClose}
-            autoFocus
-            sx={{ color: "white" }}
-          >
+          <Button variant="contained" color="primary" onClick={handleClose} autoFocus sx={{ color: "white" }}>
             Close
           </Button>
         </DialogActions>
       </Dialog>
     </div>
-  );
-};
-export default ModalCompleted;
+  )
+}
+export default ModalCompleted
