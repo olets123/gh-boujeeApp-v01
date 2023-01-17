@@ -3,6 +3,9 @@
   "dependencies": {
     "heroku": "^7.59.0"
   },
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon index.js",
