@@ -1,128 +1,116 @@
-import BoujeeChart from "./common/Chart";
-import React, { useContext, useEffect, useState } from "react";
-import Axios, { AxiosResponse } from "axios";
-import { ILists } from "./common/lib/types/List";
-import { useHistory } from "react-router";
-import UserContext from "./common/context/userContext";
-import {
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Tooltip,
-  useMediaQuery,
-} from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { Box, useTheme } from "@mui/system";
-import { CssTextField } from "./login";
-import { useSnackbar } from "notistack";
-import Delete from "@mui/icons-material/DeleteForever";
-import Refresh from "@mui/icons-material/Refresh";
+import BoujeeChart from "./common/Chart"
+import React, { useContext, useEffect, useState } from "react"
+import Axios, { AxiosResponse } from "axios"
+import { ILists } from "./common/lib/types/List"
+import { useHistory } from "react-router"
+import UserContext from "./common/context/userContext"
+import { Button, Container, Grid, IconButton, InputLabel, MenuItem, Paper, Tooltip, useMediaQuery } from "@mui/material"
+import Select, { SelectChangeEvent } from "@mui/material/Select"
+import { Box, useTheme } from "@mui/system"
+import { CssTextField } from "./login"
+import { useSnackbar } from "notistack"
+import Delete from "@mui/icons-material/DeleteForever"
+import Refresh from "@mui/icons-material/Refresh"
 
-type RoiYears = "2021" | "2022";
+type RoiYears = "2021" | "2022"
 
 export const Dashboard: React.FC<{}> = (props) => {
-  const [showNew, setShowNew] = useState<boolean>(false);
-  const [editMonth, setEditMonth] = useState<boolean>(false);
-  const [months, setMonths] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [selectedYear, setSelectedYear] = useState<RoiYears>("2021");
-  const [percent, setPercent] = useState<number>(0);
-  const [numberList, setNumberlList] = useState<ILists>([]);
+  const [showNew, setShowNew] = useState<boolean>(false)
+  const [editMonth, setEditMonth] = useState<boolean>(false)
+  const [months, setMonths] = useState<string>("")
+  const [name, setName] = useState<string>("")
+  const [selectedYear, setSelectedYear] = useState<RoiYears>("2021")
+  const [percent, setPercent] = useState<number>(0)
+  const [numberList, setNumberlList] = useState<ILists>([])
   // const [newName, setNewName] = useState<string>("");
-  const [newNumber, setNewNumber] = useState<number>(0);
-  const history = useHistory();
-  const appContext = useContext(UserContext);
-  const theme = useTheme();
-  const snackbar = useSnackbar();
-  const checkIfMobile = useMediaQuery("(min-width: 600px)");
-  const apiURL: string = "https://gentle-garden-79693.herokuapp.com";
+  const [newNumber, setNewNumber] = useState<number>(0)
+  const history = useHistory()
+  const appContext = useContext(UserContext)
+  const theme = useTheme()
+  const snackbar = useSnackbar()
+  const checkIfMobile = useMediaQuery("(min-width: 600px)")
+  const apiURL: string = "https://gentle-garden-79693.herokuapp.com"
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")
     if (!token) {
-      localStorage.removeItem("token");
-      history.replace("/login");
+      localStorage.removeItem("token")
+      history.replace("/login")
     } else {
-      (async () => {
+      ;(async () => {
         await Axios.get<ILists>(`${apiURL}/read`, {
           headers: { "x-access-token": localStorage.getItem("token") },
         }).then((response: AxiosResponse) => {
-          setNumberlList(response.data);
-        });
-      })();
+          setNumberlList(response.data)
+        })
+      })()
     }
-  }, [history, appContext]);
+  }, [history, appContext])
 
   const onAdd = async () => {
     try {
       await Axios.post(`${apiURL}/insert`, {
         month: name,
         percent: percent,
-      });
-      snackbar.enqueueSnackbar("New stats added!", { variant: "success" });
-      setShowNew(false);
+      })
+      snackbar.enqueueSnackbar("New stats added!", { variant: "success" })
+      setShowNew(false)
     } catch (error) {
-      snackbar.enqueueSnackbar("Something went wrong", { variant: "error" });
+      snackbar.enqueueSnackbar("Something went wrong", { variant: "error" })
     }
-  };
+  }
 
   const updateData = async (id: string) => {
-    const numberId = numberList.find((f) => f._id === id);
+    const numberId = numberList.find((f) => f._id === id)
     try {
       numberId &&
         (await Axios.put(`${apiURL}/numbers/${numberId._id}`, {
           id: numberId,
           percent: newNumber,
-        }));
+        }))
       snackbar.enqueueSnackbar(`${numberId && numberId.month} updated!`, {
         variant: "success",
-      });
+      })
     } catch (error) {
-      console.error();
+      console.error()
       snackbar.enqueueSnackbar("Error trying to delete, ask O.T!", {
         variant: "error",
-      });
+      })
     }
-  };
+  }
 
   const onDelete = async (id: string) => {
     try {
-      const numberId = numberList.find((f) => f._id === id);
-      await Axios.delete(`${apiURL}/delete/${numberId && numberId._id}`);
+      const numberId = numberList.find((f) => f._id === id)
+      await Axios.delete(`${apiURL}/delete/${numberId && numberId._id}`)
       snackbar.enqueueSnackbar(`${numberId && numberId.month} deleted!`, {
         variant: "success",
-      });
+      })
     } catch (error) {
-      console.error();
+      console.error()
       snackbar.enqueueSnackbar("Error trying to delete, ask O.T!", {
         variant: "error",
-      });
+      })
     }
-  };
+  }
 
   const onChangeNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPercent(Number(e.target.value));
-  };
+    setPercent(Number(e.target.value))
+  }
 
-  const onChangeNewNumber = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setNewNumber(Number(e.target.value));
-  };
+  const onChangeNewNumber = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setNewNumber(Number(e.target.value))
+  }
 
   const handleChange = (event: SelectChangeEvent) => {
-    setMonths(event.target.value);
-    setEditMonth(true);
-  };
+    setMonths(event.target.value)
+    setEditMonth(true)
+  }
 
   const logout = () => {
-    localStorage.removeItem("token");
-    history.push("/login");
-  };
+    localStorage.removeItem("token")
+    history.push("/login")
+  }
 
   return appContext ? (
     <Container>
@@ -141,12 +129,7 @@ export const Dashboard: React.FC<{}> = (props) => {
           Logout
         </Button>
       </Box>
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        width="100%"
-      >
+      <Box display="flex" justifyContent="center" alignItems="center" width="100%">
         <BoujeeChart year={selectedYear} />
       </Box>
 
@@ -193,13 +176,7 @@ export const Dashboard: React.FC<{}> = (props) => {
           </Grid>
         </Paper>
       )}
-      <Box
-        display="flex"
-        flexDirection={"column"}
-        justifyContent="center"
-        alignItems="center"
-        width="100%"
-      >
+      <Box display="flex" flexDirection={"column"} justifyContent="center" alignItems="center" width="100%">
         <Paper
           variant="elevation"
           elevation={3}
@@ -221,7 +198,7 @@ export const Dashboard: React.FC<{}> = (props) => {
               background: "#0784b5",
             }}
           >
-            {["2021", "2022"].map((option, index) => (
+            {["2021", "2022", "2023"].map((option, index) => (
               <MenuItem key={index} value={option}>
                 {option}
               </MenuItem>
@@ -284,11 +261,7 @@ export const Dashboard: React.FC<{}> = (props) => {
               Update
             </Button>
             <Tooltip title="Delete" placement="top">
-              <IconButton
-                onClick={() => onDelete(months)}
-                size="large"
-                sx={{ height: 56, width: 56 }}
-              >
+              <IconButton onClick={() => onDelete(months)} size="large" sx={{ height: 56, width: 56 }}>
                 <Delete color="secondary" sx={{ height: 56, width: 56 }} />
               </IconButton>
             </Tooltip>
@@ -318,6 +291,6 @@ export const Dashboard: React.FC<{}> = (props) => {
     <>
       <h2>You are not logged in</h2>
     </>
-  );
-};
-export default Dashboard;
+  )
+}
+export default Dashboard
