@@ -3,7 +3,9 @@
   "dependencies": {
     "heroku": "^7.59.0"
   },
-
+  "engines": {
+    "node": "19.2.0"
+  },
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon index.js",
